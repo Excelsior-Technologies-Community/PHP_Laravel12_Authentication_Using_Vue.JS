@@ -209,5 +209,8 @@ npm run test
 
 ---
 
+## screenshot
 
-Laravel and Full‑Stack Developer
+<img width="1765" height="954" alt="image" src="https://github.com/user-attachments/assets/c486e0c6-ab98-443e-8def-38972434e1fc" />
+
+
