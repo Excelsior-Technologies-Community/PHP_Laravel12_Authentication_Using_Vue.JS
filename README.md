@@ -1,66 +1,213 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PHP_Laravel12_Authentication_Using_Vue.JS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern full‑stack authentication starter project built with Laravel 12, Vue 3, Inertia.js, and Tailwind CSS. This project provides a clean and scalable foundation for building single‑page applications with a complete authentication flow.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Authentication System
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* User registration and login
+* Email verification
+* Password reset
+* Profile management
+* Protected routes using middleware
 
-## Learning Laravel
+Modern Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* Laravel 12 backend
+* Vue 3 with Composition API
+* Inertia.js for SPA‑like experience
+* Tailwind CSS for styling
+* Vite for fast asset bundling
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Security
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* Laravel Sanctum authentication
+* CSRF protection
+* Secure session handling
+* Environment‑based configuration
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Prerequisites
 
-### Premium Partners
+Make sure the following are installed on your system:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+* PHP 8.2 or higher
+* Composer (latest version)
+* Node.js 18+ with npm or yarn
+* MySQL 8.0+ or PostgreSQL
+* Git
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Quick Start
 
-## Code of Conduct
+### 1. Clone the Repository
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+git clone https://github.com/yourusername/laravel-vue-auth-2025.git
+cd laravel-vue-auth-2025
+```
 
-## Security Vulnerabilities
+### 2. Install Backend Dependencies
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer install
+```
 
-## License
+### 3. Environment Configuration
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Update your `.env` file with database details:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_vue_auth
+DB_USERNAME=root
+DB_PASSWORD=
+
+APP_URL=http://localhost:8000
+FRONTEND_URL=http://localhost:5173
+```
+
+### 4. Database Setup
+
+```bash
+php artisan migrate
+
+# Optional
+php artisan db:seed
+```
+
+### 5. Install Frontend Dependencies
+
+```bash
+npm install
+```
+
+### 6. Run Development Servers
+
+Backend:
+
+```bash
+php artisan serve
+```
+
+Frontend:
+
+```bash
+npm run dev
+```
+
+### 7. Access the Application
+
+Frontend:
+
+```
+http://localhost:5173
+```
+
+Backend:
+
+```
+http://localhost:8000
+```
+
+---
+
+## Project Structure
+
+```
+laravel-vue-auth-2025/
+├── app/
+│   ├── Http/Controllers/Auth/     Authentication controllers
+│   ├── Http/Middleware/           Custom middleware
+│   └── Models/                    Eloquent models
+├── resources/
+│   └── js/
+│       ├── Components/            Reusable Vue components
+│       ├── Layouts/               Application layouts
+│       ├── Pages/                 Vue pages (Login, Register, Dashboard)
+│       ├── composables/           Vue composables and hooks
+│       └── lib/                   Helper utilities
+├── routes/
+│   ├── web.php                    Web routes (Inertia)
+│   └── auth.php                   Authentication routes
+├── database/
+│   ├── migrations/                Database migrations
+│   └── seeders/                   Database seeders
+└── tests/                         Feature and unit tests
+```
+
+---
+
+## Customization
+
+### Adding New Pages
+
+Create a Vue page inside `resources/js/Pages` and define its route in `routes/web.php`.
+
+```php
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+});
+```
+
+### Using shadcn‑vue Components
+
+Install reusable UI components:
+
+```bash
+npx shadcn-vue@latest add component-name
+```
+
+### Layout Variants
+
+Switch layouts in `resources/js/layouts`.
+
+Example:
+
+```js
+import AppLayout from '@/layouts/AppHeaderLayout.vue';
+```
+
+Authentication layouts can be changed in:
+
+```js
+import AuthLayout from '@/layouts/AuthSplitLayout.vue';
+```
+
+---
+
+## Testing
+
+Run backend tests:
+
+```bash
+php artisan test
+```
+
+Run frontend tests:
+
+```bash
+npm run test
+```
+
+---
+
+
+Laravel and Full‑Stack Developer
