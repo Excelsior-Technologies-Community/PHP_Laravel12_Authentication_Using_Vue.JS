@@ -4,6 +4,7 @@ import { Head, Link } from '@inertiajs/vue3'
 </script>
 
 <template>
+
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
@@ -11,7 +12,7 @@ import { Head, Link } from '@inertiajs/vue3'
         <div class="py-8">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-               
+
                 <!-- Statistics -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
 
@@ -56,18 +57,24 @@ import { Head, Link } from '@inertiajs/vue3'
 
                         <div class="space-y-4">
 
-                            <Link
-                                href="/users"
-                                class="block bg-indigo-600 text-white text-center py-3 rounded-lg hover:bg-indigo-700 transition"
-                            >
-                                User Management
+                            <Link v-if="$page.props.auth.user.role === 'admin'" href="/users"
+                                class="block bg-indigo-600 text-white text-center py-3 rounded-lg hover:bg-indigo-700 transition">
+                                👥 User Management
                             </Link>
 
-                            <Link
-                                href="/profile"
-                                class="block bg-green-600 text-white text-center py-3 rounded-lg hover:bg-green-700 transition"
-                            >
-                                Edit Profile
+                            <Link v-if="$page.props.auth.user.role === 'admin'" href="/admin"
+                                class="block bg-red-600 text-white text-center py-3 rounded-lg hover:bg-red-700 transition">
+                                🛡️ Admin Dashboard
+                            </Link>
+
+                            <Link href="/login-history"
+                                class="block bg-purple-600 text-white text-center py-3 rounded-lg hover:bg-purple-700 transition">
+                                🔒 Login History
+                            </Link>
+
+                            <Link href="/profile"
+                                class="block bg-green-600 text-white text-center py-3 rounded-lg hover:bg-green-700 transition">
+                                👤 Edit Profile
                             </Link>
 
                         </div>
