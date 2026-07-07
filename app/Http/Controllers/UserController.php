@@ -13,17 +13,26 @@ class UserController extends Controller
         $search = $request->search;
         $sort = $request->sort ?? 'id_asc';
         $perPage = $request->perPage ?? 4;
+        $role = $request->input('role');
 
         $users = User::query();
 
         // Search
         if ($search) {
+
             $users->where(function ($query) use ($search) {
+
                 $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('role', 'like', "%{$search}%");
             });
         }
 
+        // Role Filter
+        if (in_array($role, ['admin', 'user'])) {
+
+            $users->where('role', $role);
+        }
 
         // Sorting
         switch ($sort) {
@@ -69,7 +78,9 @@ class UserController extends Controller
 
                 'sort' => $sort,
 
-                'perPage' => $perPage
+                'perPage' => $perPage,
+
+                'role' => $role
 
             ],
 
@@ -83,6 +94,9 @@ class UserController extends Controller
 
                 'thisMonthUsers' => User::whereMonth('created_at', now()->month)->count(),
 
+                'adminUsers' => User::where('role', 'admin')->count(),
+
+                'normalUsers' => User::where('role', 'user')->count(),
             ]
 
         ]);
