@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginActivityController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,9 +22,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/users', [UserController::class, 'index'])
-        ->name('users.index');
-    
+    // Login Activity History
+    Route::get('/login-history', [LoginActivityController::class, 'index'])
+        ->name('login.history');
+
     // Example protected API route
     Route::get('/api/user-data', function () {
         return response()->json([
@@ -33,6 +35,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('api.user-data');
 });
 
+// Admin Routes
+Route::middleware([
+    'auth',
+    'verified',
+    'admin'
+])
+    ->group(function () {
+
+        Route::get('/admin', function () {
+
+            return Inertia::render('Admin/Dashboard');
+        })->name('admin.dashboard');
+
+        Route::get('/users', [UserController::class, 'index'])
+            ->name('users.index');
+    });
+
 // Profile routes (already protected by Breeze)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,4 +59,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
