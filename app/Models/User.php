@@ -22,6 +22,9 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'status',
+        'permissions',
+        'block_reason',
     ];
 
     /**
@@ -44,12 +47,25 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'permissions' => 'array',
         ];
     }
 
-        // Login Activity Relationship
+    // Login Activity Relationship
     public function loginActivities()
     {
         return $this->hasMany(LoginActivity::class);
+    }
+
+    // Helper to check if user is blocked
+    public function isBlocked(): bool
+    {
+        return $this->status === 'blocked';
+    }
+
+    // Helper to check if user is admin
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
     }
 }

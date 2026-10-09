@@ -14,16 +14,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            \App\Http\Middleware\EnsureUserIsActive::class,
         ]);
 
         // Custom Middleware Alias
         $middleware->alias([
-
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
-
+            'active' => \App\Http\Middleware\EnsureUserIsActive::class,
         ]);
-
-        //
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

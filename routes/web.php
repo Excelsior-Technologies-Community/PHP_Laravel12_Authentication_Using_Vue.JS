@@ -16,17 +16,19 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'active'])->group(function () {
 
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    // Login Activity History
+    // Login Activity History & Device Revocation
     Route::get('/login-history', [LoginActivityController::class, 'index'])
         ->name('login.history');
+    Route::post('/login-history/logout-other-devices', [LoginActivityController::class, 'logoutOtherDevices'])
+        ->name('login.logout-other-devices');
 
-    // Example protected API route
+    // Protected API route
     Route::get('/api/user-data', function () {
         return response()->json([
             'user' => auth()->user(),
@@ -39,21 +41,36 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware([
     'auth',
     'verified',
+    'active',
     'admin'
-])
-    ->group(function () {
+])->group(function () {
 
-        Route::get('/admin', function () {
+    Route::get('/admin', function () {
+        return Inertia::render('Admin/Dashboard', [
+            'stats' => [
+                'totalUsers' => \App\Models\User::count(),
+                'activeUsers' => \App\Models\User::where('status', 'active')->count(),
+                'blockedUsers' => \App\Models\User::where('status', 'blocked')->count(),
+                'totalLogins' => \App\Models\LoginActivity::count(),
+                'recentLogins' => \App\Models\LoginActivity::with('user')->latest()->limit(5)->get(),
+            ]
+        ]);
+    })->name('admin.dashboard');
 
-            return Inertia::render('Admin/Dashboard');
-        })->name('admin.dashboard');
+    Route::get('/users', [UserController::class, 'index'])
+        ->name('users.index');
+    
+    // User Management Actions
+    Route::post('/users/{user}/toggle-status', [UserController::class, 'toggleStatus'])
+        ->name('users.toggle-status');
+    Route::post('/users/{user}/update-role', [UserController::class, 'updateRole'])
+        ->name('users.update-role');
+    Route::post('/users/{user}/revoke-sessions', [UserController::class, 'revokeSessions'])
+        ->name('users.revoke-sessions');
+});
 
-        Route::get('/users', [UserController::class, 'index'])
-            ->name('users.index');
-    });
-
-// Profile routes (already protected by Breeze)
-Route::middleware('auth')->group(function () {
+// Profile routes
+Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
