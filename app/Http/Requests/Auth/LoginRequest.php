@@ -49,6 +49,14 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Check if user is blocked by administrator
+        if (Auth::user()->isBlocked()) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'email' => 'Your account has been blocked by the Administrator.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
